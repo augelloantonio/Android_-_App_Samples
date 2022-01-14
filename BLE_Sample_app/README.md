@@ -1,4 +1,4 @@
-# BLE Sample APPe.
+# BLE Sample APP.
 
 The Flow i follow in the app is the following:
  1. Connect Gatt;
