@@ -1,5 +1,49 @@
 # BLE Sample APP.
 
+## PART 1 - DISCOVER A BLE DEVICE
+
+To Discover the BLE Devices we need first to set in our AndroidManifest file the following permissions:
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+I decided to use a Kotlin Object to use my Scan Object everywhere in the APP, ad for a self connection on app onening.
+But for this Sample APP I will call the scan() function on the "Scan" button click.
+
+Before we call the scan() function what will start our scan it is important to check if the upcited permissions were given and if not we need to promp a message to do that. To achieve this I use the following check permissions function.
+
+fun checkPermissions(activity: Activity?, context: Context?) {
+        val PERMISSION_ALL = 1
+        val PERMISSIONS = arrayOf<String>(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+        )
+        if (!hasPermissions(context, *PERMISSIONS)) {
+            ActivityCompat.requestPermissions(activity!!, PERMISSIONS, PERMISSION_ALL)
+        }
+    }
+
+    fun hasPermissions(context: Context?, vararg permissions: String?): Boolean {
+        if (context != null && permissions != null) {
+            for (permission in permissions) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        permission!!
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+
+## PART 2 - Read Data From BLE DEVICE
+
 The Flow i follow in the app is the following:
  1. Connect Gatt;
  2. Discover Services;
