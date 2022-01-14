@@ -98,11 +98,8 @@ Where onCharacteristicRead should look like:
     
     
                         // value is the read value from ble device
-                        // HERE YOU HANDE YOUR EVENT BUS, example:
-    
-                        val eventData: deviceListener = deviceListener(value)
-                        EventBus.getDefault().post(eventData)
-    
+                        // HERE YOU HANDLE THE DATA RECEIVED
+
     
                        }
                         BluetoothGatt.GATT_READ_NOT_PERMITTED -> {
