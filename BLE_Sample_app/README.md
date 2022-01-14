@@ -11,7 +11,7 @@ To Discover the BLE Devices we need first to set in our AndroidManifest file the
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
     
-I decided to use a Kotlin Object to use my Scan Object everywhere in the APP, ad for a self connection on app onening.
+I decided to use a Kotlin Object to use my Scan Object everywhere in the APP, as for be used in a self connection function on app opening.
 But for this Sample APP I will call the scan() function on the "Scan" button click.
 
 Before we call the scan() function what will start our scan it is important to check if the upcited permissions were given and if not we need to promp a message to do that. To achieve this I use the following check permissions function.
@@ -45,6 +45,85 @@ fun checkPermissions(activity: Activity?, context: Context?) {
         return true
     }
 ```
+
+Now we can proceed to call the function scan() i wrote in object present in [BLEManagement.kt](https://github.com/gello94/Android_-_App_Samples/blob/main/BLE_Sample_app/app/src/main/java/com/gello94/ble_sample_app/BLEManagement.kt)
+
+The function uses an Handler() to keep scanning until a given time (SCAN_PERIOD) isn't reached (a Progress Bar will let the user know that the phone is still scanning or if the scan has ended).
+
+We initialize the BluetoothAdapter and the BluetoothLeScanner.
+
+```
+private val bluetoothAdapter: BluetoothAdapter by lazy {
+        val bluetoothManager =
+            MainActivity.mContext!!.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothManager.adapter
+    }
+
+    private val bluetoothLeScanner: BluetoothLeScanner
+        get() {
+            val bluetoothManager =
+                MainActivity.mContext!!.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            val bluetoothAdapter = bluetoothManager.adapter
+            return bluetoothAdapter.bluetoothLeScanner
+        }
+```
+
+Then we create a scanCallback that will override the onScanResult to let us show the results and manage the devices as we prefer.
+
+```
+private val scanCallback = object : ScanCallback() {
+        @RequiresApi(Build.VERSION_CODES.M)
+        override fun onScanResult(callbackType: Int, result: ScanResult) {
+            println("Entered scan callback fun")
+            val indexQuery = MainActivity.scanResults.indexOfFirst { it.device.address == result.device.address }
+            if (indexQuery != -1) { // A scan result already exists with the same address
+                MainActivity.scanResults[indexQuery] = result
+            } else {
+
+                with(result.device) {
+                    println(result)
+                    println("Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
+                    var dName = name
+                    var dAddress = address
+                    if(name==null){
+                        dName = "Unknown"
+                    }
+                    if(address==null){
+                        dAddress = "Unknown"
+                    }
+                    MainActivity.mDeviceList.add(dName)
+                    MainActivity.addressList.add(dAddress)
+                }
+                stopBleScan()
+            }
+        }
+
+        override fun onScanFailed(errorCode: Int) {
+            println("onScanFailed: code $errorCode")
+        }
+    }
+```
+Now we can access the devices contained into the lists from the MainActivity.
+
+The DeviceManagement() function ensure to show us on the MainActivity the BLE Device List we just discovered.
+
+This method is called in an Handler() to ensure the list is always update. It can be done as well with EventBus or other methods but for this sample i've choose the fastest way.
+
+```
+val mainHandler = Handler(Looper.getMainLooper())
+        mainHandler.post(object : Runnable {
+            override fun run() {
+                println(isScanning)
+                if  (!isScanning) {
+                    if(mDeviceList.size>0) {
+                        deviceManagement(this@MainActivity)
+                    }
+                }
+                mainHandler.postDelayed(this, 1500)
+            }
+        })
+```
+
 
 ## PART 2 - Read Data From BLE DEVICE
 
