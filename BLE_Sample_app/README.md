@@ -3,10 +3,10 @@
 ## PART 1 - DISCOVER A BLE DEVICE
 
 To Discover the BLE Devices we need first to set in our AndroidManifest file the following permissions:
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  -   <uses-permission android:name="android.permission.BLUETOOTH" />
+  -  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  -  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  -  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     
 I decided to use a Kotlin Object to use my Scan Object everywhere in the APP, ad for a self connection on app onening.
 But for this Sample APP I will call the scan() function on the "Scan" button click.
