@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         val addressList = ArrayList<String>()
         var isScanning = false
         var scanEnd = false
+        var EXTRA_ADDRESS: String = ""
+        var EXTRA_NAME: String = ""
     }
 
     var deviceName: String = ""
@@ -50,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
             override fun run() {
-                println(isScanning)
                 if  (!isScanning) {
                     if(mDeviceList.size>0) {
                         deviceManagement(this@MainActivity)
@@ -91,8 +93,6 @@ class MainActivity : AppCompatActivity() {
 
     fun deviceManagement(ctx: Context) {
 
-        println(mDeviceList)
-
         val deviceListName = ArrayList<String>()
 
         for (i in 0..mDeviceList.size-1){
@@ -112,7 +112,14 @@ class MainActivity : AppCompatActivity() {
                 address = addressList[position]
                 deviceName = mDeviceList[position]
 
-                Toast.makeText(ctx, "Click on ${address}", Toast.LENGTH_LONG).show()
+                // Start Activity passing Device Address and Name
+                val intent = Intent(ctx, bleDataReceiver::class.java)
+                EXTRA_ADDRESS = address
+                EXTRA_NAME = deviceName
+
+                intent.putExtra(EXTRA_ADDRESS, address)
+                intent.putExtra(EXTRA_NAME, deviceName)
+                startActivity(intent)
             }
         }
     }

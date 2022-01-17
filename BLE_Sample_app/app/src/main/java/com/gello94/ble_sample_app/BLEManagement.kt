@@ -1,8 +1,6 @@
 package com.gello94.ble_sample_app
 
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
+import android.bluetooth.*
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
@@ -11,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -20,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.util.*
 
 object BLEManagement {
     val SCAN_PERIOD: Long = 10000
@@ -43,32 +43,36 @@ object BLEManagement {
     private val scanCallback = object : ScanCallback() {
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onScanResult(callbackType: Int, result: ScanResult) {
-            println("Entered scan callback fun")
             val indexQuery = MainActivity.scanResults.indexOfFirst { it.device.address == result.device.address }
             if (indexQuery != -1) { // A scan result already exists with the same address
                 MainActivity.scanResults[indexQuery] = result
             } else {
-
                 with(result.device) {
-                    println(result)
-                    println("Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
+                    Log.d("scan result: ", "Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
                     var dName = name
                     var dAddress = address
+
                     if(name==null){
                         dName = "Unknown"
                     }
                     if(address==null){
                         dAddress = "Unknown"
                     }
-                    MainActivity.mDeviceList.add(dName)
-                    MainActivity.addressList.add(dAddress)
+
+                    // Check if device already in list
+                    if (!MainActivity.mDeviceList.contains(dName)){
+                        MainActivity.mDeviceList.add(dName)
+                    }
+
+                    if (!MainActivity.addressList.contains(dAddress)){
+                        MainActivity.addressList.add(dAddress)
+                    }
                 }
-                stopBleScan()
             }
         }
 
         override fun onScanFailed(errorCode: Int) {
-            println("onScanFailed: code $errorCode")
+            Log.d("scan result: ", "onScanFailed: code $errorCode")
         }
     }
 

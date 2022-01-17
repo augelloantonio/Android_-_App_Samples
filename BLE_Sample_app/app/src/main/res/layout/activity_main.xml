@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:id="@+id/main_layout">
 
     <LinearLayout
         android:id="@+id/coordinator_layout"
@@ -15,11 +16,12 @@
         <LinearLayout
             android:id="@+id/page_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="match_parent"
+            android:gravity="center|top"
             android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/connectBtn"
                 android:layout_width="250dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
@@ -27,22 +29,22 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="Scan"
-                android:id="@+id/connectBtn">
+                android:text="Scan">
                 ></com.google.android.material.button.MaterialButton>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+            <ListView
+                android:id="@+id/discoveredDevices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
         </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_gravity="center"/>
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/discoveredDevices"
-            />
     </LinearLayout>
 </ScrollView>
