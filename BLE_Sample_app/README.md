@@ -16,6 +16,8 @@ But for this Sample APP I will call the scan() function on the "Scan" button cli
 
 Before we call the scan() function what will start our scan it is important to check if the upcited permissions were given and if not we need to promp a message to do that. To achieve this I use the following check permissions function.
 
+![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_scan.png)
+
 ```
 fun checkPermissions(activity: Activity?, context: Context?) {
         val PERMISSION_ALL = 1
@@ -126,6 +128,7 @@ val mainHandler = Handler(Looper.getMainLooper())
 
 
 ## PART 2 - Read Data From BLE DEVICE
+![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_data.png)
 
 The Flow i follow in the app is the following:
  1. Connect Gatt;
