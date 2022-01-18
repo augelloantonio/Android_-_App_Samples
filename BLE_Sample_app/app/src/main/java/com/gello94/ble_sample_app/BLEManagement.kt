@@ -40,6 +40,11 @@ object BLEManagement {
             return bluetoothAdapter.bluetoothLeScanner
         }
 
+    /**
+     *
+     * A scanCallback to override the onScanResult and manage the found devices as preferred
+     *
+     */
     private val scanCallback = object : ScanCallback() {
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onScanResult(callbackType: Int, result: ScanResult) {
@@ -126,5 +131,4 @@ object BLEManagement {
             startActivity(MainActivity.mContext!!, enableBtIntent, null)
         }
     }
-
 }
