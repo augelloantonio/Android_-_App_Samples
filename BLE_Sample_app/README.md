@@ -1,6 +1,7 @@
 # BLE Sample APP.
 
 ## PART 1 - DISCOVER A BLE DEVICE
+![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_scan.png)
 
 To Discover the BLE Devices we need first to set in our AndroidManifest file the following permissions:
   
@@ -15,8 +16,6 @@ I decided to use a Kotlin Object to use my Scan Object everywhere in the APP, as
 But for this Sample APP I will call the scan() function on the "Scan" button click.
 
 Before we call the scan() function what will start our scan it is important to check if the upcited permissions were given and if not we need to promp a message to do that. To achieve this I use the following check permissions function.
-
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_scan.png)
 
 ```
 fun checkPermissions(activity: Activity?, context: Context?) {
