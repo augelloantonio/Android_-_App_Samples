@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
             // Use async method to post the request
             doAsync{
-                oAuthHttpConnection.postData(json.toString(), urlMeasures, messageSend)
+                AWSConnection.postData(json.toString(), urlMeasures, messageSend)
             }
         }
     }

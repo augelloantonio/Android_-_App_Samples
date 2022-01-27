@@ -4,7 +4,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.TextView
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread
-import com.gello94.aws_iot_connection.CertificateLoader.getPublicKeyFromPem
+import com.gello94.aws_iot_connection.CertificateLoader.getPrivateKeyFromPem
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.tls.HandshakeCertificates
@@ -19,15 +19,13 @@ import java.security.cert.X509Certificate
 import java.security.interfaces.RSAPrivateCrtKey
 import java.security.spec.RSAPublicKeySpec
 
-object oAuthHttpConnection {
+object AWSConnection {
 
     fun postData(jsonData: String, url:String, textResult: TextView) {
 
         try {
-            val caInput: InputStream = BufferedInputStream(FileInputStream("#Path of your certificate somename_root.pem")) // Should be the AmazonRoot1.pem
-
             val key: PrivateKey = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                getPublicKeyFromPem(File("#Path of your certificate somename_private.pem.key"))
+                getPrivateKeyFromPem(File("#Path of your certificate somename_private.pem.key"))
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
@@ -45,12 +43,10 @@ object oAuthHttpConnection {
 
             try {
                 ca = cf.generateCertificate(caInput2)
-                println("ca=" + (ca as X509Certificate).subjectDN)
-
                 // Client certificate, used to authenticate the client
                 val clientCertificate = HeldCertificate(keyPair, (ca as X509Certificate))
 
-                caInput.close()
+                caInput2.close()
 
                 // Create handshake certificate (which root certificate/hostname to trust)
                 val clientCertificatesBuilder = HandshakeCertificates.Builder()
@@ -107,7 +103,7 @@ object oAuthHttpConnection {
                     })
                 }
             } finally {
-                caInput.close()
+                caInput2.close()
             }
 
         } catch (e: Exception) {

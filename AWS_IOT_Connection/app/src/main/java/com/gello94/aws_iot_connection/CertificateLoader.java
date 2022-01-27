@@ -13,18 +13,21 @@ public final class CertificateLoader {
     /**
      * reads a public key from a file
      * @param f file to read
-     * @return the read public key
+     * @return the read private key
      * @throws Exception
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static PrivateKey getPublicKeyFromPem(File f)
+    public static PrivateKey getPrivateKeyFromPem(File f)
             throws Exception
     {
+
+        // Read the file allocating the key --> Would prefer not to store into the phone memory
         byte[] keyBytes = Files.readAllBytes(f.toPath());
 
         String temp = new String(keyBytes);
         String publicKeyPEM = temp;
 
+        // Check if file is a PCKS#1 or PCKS#8 and remove header and footer
         if(temp.contains("-----BEGIN PUBLIC KEY-----"))
         {
             publicKeyPEM = temp
@@ -40,9 +43,13 @@ public final class CertificateLoader {
                     .trim();
         }
 
+        // After header and footer removal the key is decoded into base64 and saved as
+        // encoded PCKS#8 private key
         byte[] decoded = Base64.getMimeDecoder().decode(publicKeyPEM);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decoded);
         KeyFactory kf = KeyFactory.getInstance("RSA");
+
+        // Returning a private key
         return kf.generatePrivate(spec);
     }
 }
