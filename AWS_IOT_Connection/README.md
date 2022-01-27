@@ -8,7 +8,7 @@ Dependencies needed for this project to add to gradle module are (if more recent
 
 - implementation 'com.amazonaws:aws-android-sdk-iot:2.37.1'
 - implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.37.1'
-- implementation("com.squareup.okhttp3:okhttp:4.9.0")
+- implementation"com.squareup.okhttp3:okhttp:4.9.0")
 - implementation 'com.squareup.okhttp3:okhttp-tls:4.9.3'
 
 ## Certificates
