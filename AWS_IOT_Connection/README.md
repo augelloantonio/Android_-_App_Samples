@@ -1,12 +1,11 @@
 # AWS IOT CONNECTION APP.
 
-
+![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/aws_iot_screen.png)
 
 ## Dependencies
 
 Dependencies needed for this project to add to gradle module are (if more recent versions use them):
 
-- implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
 - implementation 'com.amazonaws:aws-android-sdk-iot:2.37.1'
 - implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.37.1'
 - implementation("com.squareup.okhttp3:okhttp:4.9.0")
