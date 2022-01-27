@@ -4,3 +4,4 @@ A repository containing some Android projects with code-driven to solve some of 
 
 ## Sample APP List
 - [BLE_APP_Sample](https://github.com/gello94/Android_-_App_Samples/tree/main/BLE_Sample_app)
+- [AWS IOT Connection_APP_Sample](https://github.com/gello94/Android_-_App_Samples/tree/main/AWS_IOT_Connection)
