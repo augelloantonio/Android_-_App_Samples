@@ -18,12 +18,14 @@ import java.util.*
 
 class GraphViewActivity : AppCompatActivity() {
 
+    // Load the starting chart necessary variable
     lateinit var chart: LineChart
     var yArray = ArrayList<Entry>()
     lateinit var set1: LineDataSet
     var xLabel = ArrayList<String>()
     var firststartedSessionTs: Long = 0
 
+    // Let's create the event bus data listener
     data class liveGraphTimeListener(var time:String){
     }
     data class liveGraphDataListener(var dataToPlot:Float){
@@ -36,25 +38,28 @@ class GraphViewActivity : AppCompatActivity() {
         // Keep the screen awake
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        //Load the chart from the layout view
+        chart = graph
+
+        //Button to set which data do you want to send to the graph
         sendNumber.setOnClickListener {
             sendDataToGraph()
         }
-        chart = graph
     }
 
     private fun sendDataToGraph(){
         val data = dataToSend.text.toString().toFloat()
 
+        // Post data to the subscriber
         val dataToPlot: liveGraphDataListener = liveGraphDataListener(data)
         EventBus.getDefault().post(dataToPlot)
-
-        //addEntry(data)
     }
 
     fun addEntry(datatoplot: Float) {
 
         val data = chart.data
 
+        // Add data to the graph in x and y axix
         if (data != null) {
             var set = data.getDataSetByIndex(0)
             if (set1 == null) {
@@ -68,14 +73,14 @@ class GraphViewActivity : AppCompatActivity() {
                 ), 0
             )
 
+            // Get elapsed time to plot as xAxix in the graph
             val dataPointsTime = getTimestampForXAxis()
 
+            // Create x axix label - I used data time as label in this sample
             xLabel.add(dataPointsTime)
 
+            // Notify the graph data changed
             data.notifyDataChanged()
-
-            // let the chart know it's data has changed
-            chart.notifyDataSetChanged()
 
             // move to the latest entry
             chart.moveViewToX(data.entryCount.toFloat())
@@ -84,6 +89,7 @@ class GraphViewActivity : AppCompatActivity() {
             // move to the latest entry
             chart.moveViewToX(data.entryCount.toFloat())
 
+            // Set max and min range view
             chart.setVisibleXRangeMaximum(250f)
             chart.setVisibleXRangeMinimum(250f)
 
@@ -187,48 +193,6 @@ class GraphViewActivity : AppCompatActivity() {
         chart.invalidate()
     }
 
-    private fun updateChartData(data: ArrayList<Float>, chart: LineChart){
-
-        yArray.clear()
-        xLabel.clear()
-        chart.notifyDataSetChanged();
-        chart.invalidate();
-
-        var i = 0
-
-        yArray.add(Entry(0.toFloat(), 1.20!!.toFloat()))
-
-        chart.getAxisRight().setEnabled(false);
-
-        val xAxis = chart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
-        xAxis.setDrawGridLines(false)
-        xAxis.granularity = 1f // only intervals of 1 day
-
-        xAxis.textSize = 8f
-
-        xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
-
-        chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
-        chart.getXAxis().setTextColor(Color.WHITE);
-        chart.getLegend().setTextColor(Color.WHITE);
-
-        chart.setAutoScaleMinMaxEnabled(true);
-
-        chart.axisLeft.removeAllLimitLines()
-        chart.axisLeft.resetAxisMaximum()
-        chart.axisLeft.resetAxisMinimum()
-
-        set1 = LineDataSet(yArray, "")
-
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
-        set1.setLineWidth(2f)
-
-        chart.notifyDataSetChanged()
-        chart.invalidate()
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onTimeReceived(event: liveGraphTimeListener){
         if (event.time!=null){
@@ -239,6 +203,7 @@ class GraphViewActivity : AppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onDataToPlotReceived(event: liveGraphDataListener){
         if (event.dataToPlot!=null){
+            // Add data to the graph every time you receive a new data from the event bus listener
             addEntry(event.dataToPlot)
         }
     }
@@ -255,7 +220,11 @@ class GraphViewActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // This will load an empty starting chart where data are going to be added
         renderChartOnline()
+
+        //This will check if thr eventbus is registered or not
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
