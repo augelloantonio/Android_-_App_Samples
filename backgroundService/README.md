@@ -1,7 +1,7 @@
 # Foreground Task APP Sample.
 
 ## PART 1 - Permits
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/background_app_main.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/background_app_main.png" width="256" height="455">
 
 To allow the foreground services and the notification you need to add the following permissions in your manifest file:
   
@@ -83,7 +83,7 @@ with(NotificationManagerCompat.from(this)) {
 ```
 
 ## PART 3 - Use the Notification Service
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/background_notification.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/background_notification.png" width="256" height="455">
 
 In the Main Activity I used a runnable Handler to run a task every second and update the text view.
 The Layout is very simple, there is a text view containing the text of the counter, a start button that hide on start press and a stop button that shows.
