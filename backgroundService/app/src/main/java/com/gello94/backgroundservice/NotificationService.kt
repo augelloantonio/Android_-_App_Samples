@@ -31,8 +31,7 @@ public class NotificationService: Service() {
 
     fun createNotify(intent: Intent){
         val channelId = "Notification from Service"
-        val channel =
-            NotificationChannel(
+        val channel = NotificationChannel(
                 channelId,
                 "Channel human readable title",
                 NotificationManager.IMPORTANCE_DEFAULT
