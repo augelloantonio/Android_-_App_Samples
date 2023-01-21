@@ -1,6 +1,6 @@
 # AWS IOT CONNECTION APP.
 
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/aws_iot_screen.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/aws_iot_screen.png" width="256" height="455">
 
 ## Dependencies
 

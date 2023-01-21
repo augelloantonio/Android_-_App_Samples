@@ -1,6 +1,6 @@
 # Charting Sample APP.
 
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/chart_sample_app.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/chart_sample_app.png" width="256" height="455">
 
 This is a sample app that uses EventBus to plot smooth real time data on Android using MPAndroidChart.
 

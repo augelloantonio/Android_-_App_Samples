@@ -1,7 +1,7 @@
 # BLE Sample APP.
 
 ## PART 1 - DISCOVER A BLE DEVICE
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_scan.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_scan.png" width="256" height="455">
 
 To Discover the BLE Devices we need first to set in our AndroidManifest file the following permissions:
   
@@ -127,7 +127,8 @@ val mainHandler = Handler(Looper.getMainLooper())
 
 
 ## PART 2 - Read Data From BLE DEVICE
-![Main Page](https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_data.png)
+<img src="https://github.com/gello94/Android_-_App_Samples/blob/main/images/ble_sample_app_data.png" width="256" height="455">
+
 
 The Flow i follow in the app is the following:
  1. Connect Gatt;
